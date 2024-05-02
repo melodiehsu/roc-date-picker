@@ -211,7 +211,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: String,
+      type: Date || String,
       default: ''
     },
     lang: {
@@ -250,7 +250,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, { emit }) {
     const {
-      type, defaultValue, disabled, calendarYearType, lang
+      type, defaultValue, disabled, calendarYearType, lang, modelValue
     } = toRefs(props);
     const isCalendarVisible = ref(false);
     const isDateCalendarVisible = ref(false);
@@ -321,8 +321,8 @@ export default defineComponent({
     const initCalendar = () => {
       setCalendarVisibility(type.value);
 
-      if (defaultValue.value) {
-        const defaultTime = new Date(defaultValue.value);
+      if (defaultValue.value || modelValue.value) {
+        const defaultTime = new Date(defaultValue.value || modelValue.value);
         const defaultYear = defaultTime.getFullYear();
 
         if ((yearType.value === YearType.RepublicEra) && (defaultYear <= 1911)) {
